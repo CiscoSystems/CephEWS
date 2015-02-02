@@ -1,0 +1,154 @@
+{% extends "index.html" %}
+
+{% block js %}
+<script>
+$(".create-form").submit(function(e){
+    e.preventDefault();
+    var url = "json?m=create_pool&" + $(this).serialize();
+    $.getJSON(url, function(data) {
+        location.reload();
+    });
+});
+$("#delete-form").submit(function(e){
+    e.preventDefault();
+    if($("#id_poolname").val() != $("#delete-pool-name").html())
+    {
+        $("#delete-tip").html("Pool name doesn't match");
+        return;
+    }
+    var url = "json?m=delete_pool&pool=" + $("#id_poolname").val();
+    $.getJSON(url, function(data) {
+        location.reload();
+    });
+});
+var delete_pool = function(id) {
+    $("#delete-pool-name").html(id);
+    $("#delete-pool").modal('show');
+}
+</script>
+{% endblock %}
+{% block content %}
+<h1 class="page-header">Pool</h1>
+
+<div class="row btn-group pull-right" style="padding-bottom: 10px">
+    <button class="btn btn-default" id="create" data-toggle="modal" data-target="#workflow"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+    <button class="btn btn-default" id="delete" data-toggle="modal"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+</div>
+
+<table class="table table-striped table-hover">
+    <tr>
+        <th><input type="checkbox" name="checkall" id="checkall"></th>
+        <th>#</th>
+        <th>Name</th>
+        <th>CRUSH Ruleset</th>
+        <th>Replicas</th>
+        <th>Used</th>
+        <th>Max Available</th>
+        <th>Objects</th>
+        <th>Actions</th>
+    </tr>
+    {% for pool in pool_df %}
+    <tr>
+        <td><input type="checkbox" name="pool{{pool.id}}" class="check"></td>
+        <td>{{ pool.id }}</td>
+        <td>{{ pool.name }}</td>
+        <td>{{ pool.ruleset }}</td>
+        <td>{{ pool.size }}</td>
+        <td>{{ pool.stats.bytes_used|filesizeformat }}</td>
+        <td>{{ pool.stats.max_avail }}</td>
+        <td>{{ pool.stats.objects }}</td>
+        <td>      
+            <div class="btn-group">
+                <a class="badge action-badge" class="delete-pool-btn" href="javascript:delete_pool('{{pool.name}}')"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+            </div>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<div class="row btn-group pull-right">
+    <button class="btn btn-default" id="create" data-toggle="modal" data-target="#workflow"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+    <button class="btn btn-default" id="delete" data-toggle="modal"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+</div>
+
+<div class="modal fade" id="workflow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 id="myModalLabel" class="modal-title">Create Pool</h4>
+            </div>
+            <form  class="create-form" action="createCrushRule"  method="POST">
+            <div class="modal-body">
+                <table class="table-fixed">
+                <tbody>
+                <tr>
+                  <td class="actions">
+                        <div class="control-group form-field clearfix required">
+                            <label for="id_name">Name:</label>
+                            <div class="input">
+                                <input id="id_name" maxlength="25" name="name" type="text" />
+                            </div>
+                        </div>
+                        <div class="control-group form-field clearfix required">
+                            <label for="id_pg">Number of Placement Groups:</label>
+                            <div class="input">
+                                <input id="id_pg" maxlength="25" name="pg" type="text" />
+                            </div>
+                        </div>
+                        <div class="control-group form-field clearfix">
+                            <label for="id_type">Type:</label>
+                            <div class="input">
+                                <input id="id_type" name="type" type="radio" value="replicated" checked>replicated
+                                <input id="id_type" name="type" type="radio" value="replicated" disabled> erasure
+                            </div>
+                        </div>
+                        <div class="control-group form-field clearfix">
+                            <label for="id_crush_rule">Ruleset Name:</label>
+                            <div class="input">
+                                <input type="text" id="id_crush_rule" name="crush_rule" maxlength="25" />
+                            </div>
+                        </div> 
+                    </td>
+                    <td class="help_text">
+                          <p>From here you can create a new pool to hold your objects.</p>
+                    </td>
+                </tr>
+                </tbody>
+                </table>
+            </div><!-- .modal-body -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <input type="submit" class="btn btn-primary" value="Create Pool">
+            </div> <!-- .modal-footer -->
+            </form>
+        </div> <!-- .modal-content -->
+    </div> <!-- .modal-dialog -->
+</div> <!-- .modal -->
+
+<div class="modal fade" id="delete-pool" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 id="myModalLabel" class="modal-title">Delete Pool</h4>
+            </div>
+            <form actioin="" method="POST" id="delete-form">
+            <div class="modal-body"> 
+                <p>This will *PERMANENTLY DESTROY* all data stored in pool <span id="delete-pool-name"></span>. Are you sure to delete it? Please type in the name of the pool below to confirm.</p>
+                <p>
+                    <label for="id_poolname">Delete Pool:</label>
+                    <input type="text" name="poolname" id="id_poolname"/>
+                    <span id="delete-tip" class="label label-warning"></span>
+                </p>
+            </div><!-- .modal-body -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <input type="submit" class="btn btn-danger" value="Delete Pool">
+            </div> <!-- .modal-footer -->
+            </form>
+        </div> <!-- .modal-content -->
+    </div> <!-- .modal-dialog -->
+</div> <!-- .modal -->
+
+{% endblock %}

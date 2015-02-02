@@ -1,0 +1,8 @@
+Django==1.8.1
+flake8==2.4.0
+mccabe==0.3
+pep8==1.5.7
+py==1.4.27
+pyflakes==0.8.1
+pytest==2.7.0
+requests==2.7.0
