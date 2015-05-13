@@ -30,7 +30,7 @@ setup(
         'CephEWS',
     ],
     package_dir = {'CephEWS':
-                   'dashboard/webapp'},
+                   'dashboard/cephews'},
     include_package_data=True,
     install_requires=requirements,
     license="Apache License 2.0",
