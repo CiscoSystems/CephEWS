@@ -1,4 +1,4 @@
 include README.md
 include LICENSE
-recursive-include dashboard/webapp/static *
-recursive-include dashboard/webapp/templates *
+recursive-include dashboard/cephews/static *
+recursive-include dashboard/cephews/templates *
