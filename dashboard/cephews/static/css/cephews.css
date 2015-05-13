@@ -1,0 +1,189 @@
+/*
+ * Copyright 2015 Cisco Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain
+ * a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ */
+
+/*
+ * Base structure
+ */
+
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+  padding-top: 50px;
+}
+
+
+/*
+ * Global add-ons
+ */
+
+.sub-header {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+/*
+ * Top navigation
+ * Hide default border to remove 1px line.
+ */
+.navbar-fixed-top {
+  border: 0;
+}
+
+/*
+ * Sidebar
+ */
+
+/* Hide for mobile, show later */
+.sidebar {
+  display: none;
+}
+@media (min-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 51px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    background-color: #f5f5f5;
+    border-right: 1px solid #eee;
+  }
+}
+
+/* Sidebar navigation */
+.nav-sidebar {
+  margin-right: -21px; /* 20px padding + 1px border */
+  margin-bottom: 20px;
+  margin-left: -20px;
+}
+.nav-sidebar > li > a {
+  padding-right: 20px;
+  padding-left: 20px;
+}
+.nav-sidebar > .active > a,
+.nav-sidebar > .active > a:hover,
+.nav-sidebar > .active > a:focus {
+  color: #fff;
+  background-color: #428bca;
+}
+
+
+/*
+ * Main content
+ */
+
+.main {
+  padding: 20px;
+}
+@media (min-width: 768px) {
+  .main {
+    padding-right: 40px;
+    padding-left: 40px;
+  }
+}
+.main .page-header {
+  margin-top: 0;
+}
+
+
+/*
+ * Placeholder dashboard ideas
+ */
+
+.placeholders {
+  margin-bottom: 30px;
+  text-align: center;
+}
+.placeholders h4 {
+  margin-bottom: 0;
+}
+.placeholder {
+  margin-bottom: 20px;
+}
+.placeholder img {
+  display: inline-block;
+  border-radius: 50%;
+}
+
+/*
+ * --------------------------------- Overview ----------------------------------
+ */
+
+#power-gauge {
+    border:2px solid #828383;
+    border-radius: 20px;
+    width: 335px;
+    height: 200px;
+    padding: 5px;
+}
+
+#cluster-overview .box {
+    border:2px solid #828383;
+    border-radius: 20px;
+    height: 210px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 10px 15px;
+    margin: 10px;
+}
+
+#pool-status {
+    position: static;
+}
+
+#pool-status svg {
+    float:left;
+    height: 400px;
+}
+
+.popover{
+    z-index: 1000;
+}
+
+/*
+ *--------------------------------- OSD Status ---------------------------------
+ */
+
+#tree-container .node {
+    cursor: pointer;
+}
+
+#tree-container .node text {
+    font-size:13px; 
+    font-family:sans-serif;
+}
+
+#tree-container .link {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 3.5px;
+}
+
+.osdpopoverright .label{
+    margin-left:2px;
+}
+
+/*
+ * ----------------------------- Object Distribution ---------------------------
+ */
+
+.ui-autocomplete {
+    max-height: 100px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}

@@ -1,0 +1,133 @@
+# Copyright 2015 Cisco Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you may
+# not use this file except in compliance with the License. You may obtain
+# a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+
+"""
+Django settings for dashboard project.
+
+For more information on this file, see
+https://docs.djangoproject.com/en/1.6/topics/settings/
+
+For the full list of settings and their values, see
+https://docs.djangoproject.com/en/1.6/ref/settings/
+"""
+
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
+
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = '_37vk^#%vl8wyo3jznzn8f78=ff1(cj4m04ms6un97#x&@u+*6'
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
+
+TEMPLATE_DEBUG = True
+
+ALLOWED_HOSTS = []
+
+
+# Application definition
+
+INSTALLED_APPS = (
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'cephews',
+)
+
+MIDDLEWARE_CLASSES = (
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+)
+
+ROOT_URLCONF = 'dashboard.urls'
+
+WSGI_APPLICATION = 'dashboard.wsgi.application'
+
+
+# Database
+# https://docs.djangoproject.com/en/1.6/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+
+# Internationalization
+# https://docs.djangoproject.com/en/1.6/topics/i18n/
+
+LANGUAGE_CODE = 'en-us'
+
+TIME_ZONE = 'UTC'
+
+USE_I18N = True
+
+USE_L10N = True
+
+USE_TZ = True
+
+
+# Login and logout
+
+LOGIN_URL = '/login'
+
+LOGOUT_URL = '/logout'
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.6/howto/static-files/
+
+STATIC_URL = '/static/'
+
+# Ceph-rest-api endpoint, for example: http://10.0.0.2/
+API_URL = '{api_url}'
+
+API_PORT = 5000
+
+# Graphite endpoint in the format: http://domain/render/
+GRAPHITE_ENDPOINT = '{graphite_endpoint}'
+
+# True or False if graphite authentication is required
+GRAPHITE_AUTH = {graphite_auth}
+
+# If graphite authentication is required, add username and password here
+# GRAPHITE_USERNAME = '{graphite_username}'
+
+# GRAPHITE_PASSWORD = '{graphite_password}'
+
+GRAPHITE_PREFIX = 'collectd'
+
+GRAPHITE_SUFIX = 'collectd'
+
+# FQDN(Fully Qualified Domain Name) of Graphite server
+# Escape '.' with '_'
+GRAPHITE_SERVER = '{graphite_hostname}'
+
+# Path to ceph.conf
+CEPH_CONF = '/etc/ceph/ceph.conf'
+
+# Path to ceph keyring
+CEPH_KEYRING = '/etc/ceph/ceph.client.admin.keyring'

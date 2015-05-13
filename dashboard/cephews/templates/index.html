@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+     {% block title %}<title>Ceph Early Warning System</title>{% endblock %}
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.1.15-beta/nv.d3.min.css" rel="stylesheet">
+	 <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+	 <link href="/static/css/cephews.css" rel="stylesheet">
+     <link href='http://fonts.googleapis.com/css?family=Rambla' rel='stylesheet' type='text/css'>
+     {% block css %}{% endblock %}
+    </head>
+
+
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button><img src="/static/images/cisco_logo.png" style="width:70px;float:left;margin-right:5px;">
+            <a class="navbar-brand" href="overview"> | CephEWS</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="overview">Dashboard</a></li>
+                <li><a href="#">Setting</a></li>
+                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#helpModal">Help</a></li>
+                <li><a href="logout">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebard">
+                <li><a href="overview">Overview</a></li>
+                <li><a href="osd_status">OSD</a></li>
+                <li><a href="pool">Pool</a></li>
+                <li><a href="crush_rule">CRUSH Rule</a></li>
+            </ul>
+            <h5>Labs</h5>
+            <hr style="margin:0">
+            <ul class="nav nav-sidebard">
+                <li><a href="distribution">Objects Distribution</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+{% block content %}{% endblock %}
+        </div>
+    </div>
+</div>
+<div class="footer">
+{% block footer %}{% endblock %}
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="helpModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="helpModalLabel">CephEWS Help</h4>
+      </div>
+      <div class="modal-body">
+	<h4>Overview</h4>
+	<p>Provides a overview of whole cluster status. From the top to the bottom, user can see the cluster health, space usage, node health, historical graph(number of objects, number of requests, etc.) for each pool.</p>
+
+	<h4>Topology</h4>
+	<p>Presents the current topology of the whole cluster in a tree graph. When admin clicks on a particular OSD, a popover window will show the detailed information about that OSD and its host. If collectd is enabled, user will be able to see the heat-map of OSD, showing the requests each OSD handled in the past period of time.</p>
+
+	<h4>Pool</h4>
+	<p>Presents a list of pools in the cluster. User can create or delete pools.</p>
+
+	<h4>CRUSH Rule</h4>
+	<p>Presents a list of CRUSH Rule, which are used to control objects distribution. User should be able to create and delete rules.</p>
+
+	<h4>Object Distribution</h4>
+	<p>Given pool name and ID of a particular volume, this tab will present the distribution of objects belonging to that volume. Distribution will be shown in terms of placement groups and OSDs.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.1.15-beta/nv.d3.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+<script src="/static/js/cephews.js"></script>
+{% block js %}
+{% endblock %}
+</body>
+
+</html>

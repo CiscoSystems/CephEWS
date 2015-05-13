@@ -1,0 +1,7 @@
+venv/*
+.tox
+*.pyc
+*.swp
+.gitreview
+settings.py
+db.sqlite3

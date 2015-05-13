@@ -1,0 +1,93 @@
+{% extends "index.html" %}
+
+{% block js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script>
+var images=[{% for image in images %}'{{image}}',{% endfor %}];
+
+$(document).ready(function () {
+    $("#query-form").submit(function(event){
+        event.preventDefault();
+        $(".chart-submit").val('Loading...');
+        $(".chart-submit").addClass('disabled');
+        var url="json?m=query&" + $(this).serialize();
+        distJSON = d3.json(url, function(error, distData) {
+            nv.addGraph(function() {
+                var chart = nv.models.discreteBarChart()
+                  .staggerLabels(true)
+                  .tooltips(true)
+                  .showValues(false)
+                  .showXAxis(false)
+                  .color(['#1f77b4'])
+
+                d3.select('#pg-chart svg')
+                  .datum(distData['pg'])
+                  .transition().duration(500)
+                  .call(chart)
+                  ;
+
+                nv.utils.windowResize(chart.update);
+
+                return chart;
+            });
+            nv.addGraph(function() {
+              var chart = nv.models.pieChart()
+                  .showLabels(true);
+
+                d3.select("#osd-chart svg")
+                  .datum(distData['osd'][0]['values'])
+                  .transition().duration(1200)
+                  .call(chart);
+ 
+                nv.utils.windowResize(chart.update);
+
+              return chart;
+            });
+            $(".chart-submit").val('Search');
+            $(".chart-submit").removeClass('disabled');
+        });
+    });
+
+    $("#rbd_type").change(function(e){
+        var url = "json?m=image_list&pool=" + $(this).val();
+        $.getJSON(url, function(data) {
+            $("#object").autocomplete({source: data});
+        });
+    });
+
+    $("#object").autocomplete({
+        source:images 
+    });
+});
+
+
+</script>
+{% endblock %}
+{% block content %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.css" rel="stylesheet">
+<h1 class="page-header">Objects Distribution</h1>
+<form id="query-form" style="padding-left:30px">
+<div class="row">
+    <div class="col-xs-2">
+    <select name="pool" id="rbd_type" class="form-control">
+        {% for pool in pools %}
+        <option value="{{pool.poolname}}">{{pool.poolname}}</option>
+        {% endfor %}
+    </select>
+    </div>
+    <div class="col-xs-4 ui-widget">
+        <input type="text" name="id" placeholder="Object ID" id="object" class="form-control"/>
+    </div>
+    <div class="col-xs-3">
+        <input type="submit" value="Search" class="btn chart-submit btn-default" class="form-control"/>
+    </div>
+</div>
+</form>
+<style>
+#pg-chart svg { height:400px}
+#osd-chart svg { height:400px}
+</style>
+<div id="pg-chart"><svg></svg></div>
+<div id="osd-chart"><svg></svg></div>
+<body>
+{% endblock %}

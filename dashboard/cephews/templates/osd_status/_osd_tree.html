@@ -1,0 +1,14 @@
+{% extends "index.html" %}
+
+{% block js %}
+<script>
+treeJSON = d3.json("json?m=tree", osd_tree);
+</script>
+
+{% endblock %}
+
+{% block content %}
+<h1 class="page-header">OSD Status</h1>
+<div id="tree-container" class="col-md-10">
+</div>
+{% endblock %}

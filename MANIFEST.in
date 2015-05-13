@@ -1,0 +1,4 @@
+include README.md
+include LICENSE
+recursive-include dashboard/cephews/static *
+recursive-include dashboard/cephews/templates *

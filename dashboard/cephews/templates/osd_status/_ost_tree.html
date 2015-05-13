@@ -1,0 +1,70 @@
+{% extends "index.html" %}
+
+{% block js %}
+<script>
+treeJSON = d3.json("json?m=tree", osd_tree);
+
+var selectFor = null;
+
+$(document).ready(function(){
+    $('#crush-rule button').click(function(e){
+        e.preventDefault(); 
+        if(selectFor == null) {
+            $(this).html('cancel');
+            selectFor = $(this).prev().attr('name');
+        } else if ($(this).html() == 'cancel') {
+            $(this).html('select');
+            selectFor = null;
+        }
+    });
+
+    $('#crush-rule select').change(function(e){
+        if($(this).val() == 'new') {
+            $("#crush-rule #poolName").show();
+            $("#crush-rule input[name='is_new']").val("true");
+        } else {
+            $("#crush-rule input[name='is_new']").val("false");
+            $("#crush-rule #poolName").hide();
+        }
+    });
+
+    $('#crush-form').submit(function(e){
+        e.preventDefault();
+        var params = $(this).serialize()
+        $.getJSON('json?m=new_rule&'+params,function(data){
+            console.log(data);
+        })
+    });
+});
+</script>
+
+{% endblock %}
+
+{% block content %}
+<h1 class="page-header">OSD Status</h1>
+<div id="tree-container" class="col-md-8">
+</div>
+<div id="operation" class="col-md-4">
+    <div id="crush-rule">
+        <h3 class="title">CRUSH Rule</h3>
+        <form action="" method="POST" id="crush-form">
+            <ul>
+                <li>Pool:
+                    <select name="pool">
+                        {% for pool in pools %}
+                        <option value="{{pool.poolname}}">{{pool.poolname}}</option>
+                        {% endfor %}
+                        <option value="new">new pool</option>
+                    </select>
+                </li>
+                <li style="display:none" id="poolName">Pool Name:<input type="text" name="pool_name" /><input type="hidden" name="is_new" value="false"></li>
+                <li>Rule Name:<input type="text" name="rule_name"></li>
+                <li>Primary: <input type="text" name="replica1"> <button class="select">select</button></li>
+                <li>Second: <input type="text" name="replica2"> <button class="select">select</button></li>
+                <li>Ternary: <input type="text" name="replica3"> <button class="select">select</button></li>
+                <li><input type="submit" value="Add"></li>
+            </ul>
+        </form>
+    </div>
+</div>
+{% endblock %}
