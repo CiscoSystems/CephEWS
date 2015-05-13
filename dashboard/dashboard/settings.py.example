@@ -102,6 +102,7 @@ LOGOUT_URL = '/logout'
 
 STATIC_URL = '/static/'
 
+# Ceph-rest-api endpoint, for example: http://10.0.0.2/
 API_URL = '{api_url}'
 
 API_PORT = 5000
@@ -109,6 +110,7 @@ API_PORT = 5000
 # Graphite endpoint in the format: http://domain/render/
 GRAPHITE_ENDPOINT = '{graphite_endpoint}'
 
+# True or False if graphite authentication is required
 GRAPHITE_AUTH = {graphite_auth}
 
 # If graphite authentication is required, add username and password here
