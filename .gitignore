@@ -1,4 +1,5 @@
-env/*
+venv/*
+.tox
 *.pyc
 *.swp
 .gitreview

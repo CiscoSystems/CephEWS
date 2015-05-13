@@ -21,7 +21,7 @@ try:
     import rados
     import rbd
     WITH_RADOS = True
-except EnvironmentError:
+except ImportError:
     WITH_RADOS = False
 
 

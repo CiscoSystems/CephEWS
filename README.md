@@ -25,8 +25,8 @@ Please install collectd on each of OSD host nodes and one of the monitor nodes.
 
 ## Install Django Webapp
 * Change settings accordingly.
-* Create database: python manage.py migrate
-* Create super user: python manage.py createsuperuser
+* Create database: `python manage.py migrate`
+* Create super user: `python manage.py createsuperuser`
 
 ## Labs feature
 * Install librados: sudo apt-get install python-rados
