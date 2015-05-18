@@ -8,7 +8,7 @@ Early Warning System for Ceph. Please note this will have code for the ceph dash
 * Ceph CRUSH rule management
 * Ceph object distribution query
 
-![Screenshots](https://raw.githubusercontent.com/CiscoSystems/CephEWS/screenshots/screenshots/Screenshot%20from%202015-05-14%2010%3A53%3A54.png)
+![Screenshots](https://raw.githubusercontent.com/CiscoSystems/CephEWS/master/screenshots/Screenshot%20from%202015-05-14%2010%3A53%3A54.png)
 
 ## Dependency
 
