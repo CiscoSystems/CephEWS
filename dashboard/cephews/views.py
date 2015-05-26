@@ -126,8 +126,7 @@ def json_response(request):
             client = CephClient()
             context = dict()
             context['data'] = client.osd_tree()
-            if len(context['data']):
-                data = context['data'][0]
+            data = context['data']
 
         elif m == 'osd_info':
             client = GraphiteClient()
