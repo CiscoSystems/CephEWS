@@ -74,24 +74,24 @@ class CephClient():
             return {}
         nodes = osds['nodes']
         osd_dic = dict()
+        is_root = dict()
         for node in nodes:
             osd_dic[node['id']] = node
             node['cid'] = node['id']
+            is_root[node['id']] = True
             del node['id']
-            node['is_root'] = True
 
         for node in nodes:
             if 'children' in node:
                 children = list()
                 for child in node['children']:
                     children.append(osd_dic[child])
-                    osd_dic[child]['is_root'] = False
+                    del is_root[child]
                 node['children'] = children
 
-        osd_tree = list()
-        for node in nodes:
-            if node['is_root']:
-                osd_tree.append(node)
+        osd_tree = {'name': 'ceph', 'cid': -32767, 'type_id': -1, 'children':[]}
+        for id in is_root:
+            osd_tree['children'].append(osd_dic[id])
         return osd_tree
 
     def crush_rules(self):
